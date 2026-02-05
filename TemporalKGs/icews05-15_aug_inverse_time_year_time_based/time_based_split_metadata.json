@@ -1,0 +1,49 @@
+{
+  "input_files": [
+    "/Users/hasan/mmkb/TemporalKGs/icews05-15_aug_inverse_time_year/icews_2005-2015_train_normalized.txt",
+    "/Users/hasan/mmkb/TemporalKGs/icews05-15_aug_inverse_time_year/icews_2005-2015_valid_normalized.txt",
+    "/Users/hasan/mmkb/TemporalKGs/icews05-15_aug_inverse_time_year/icews_2005-2015_test_normalized.txt"
+  ],
+  "output_dir": "/Users/hasan/mmkb/TemporalKGs/icews05-15_aug_inverse_time_year_time_based",
+  "ratios": {
+    "train": 0.7,
+    "valid": 0.15,
+    "test": 0.15
+  },
+  "time_column": "time_index",
+  "date_column": "date",
+  "time_cutoffs": {
+    "train_max_time_index": 91,
+    "valid_max_time_index": 113
+  },
+  "counts_by_time_buckets": 132,
+  "total_rows": 1383987,
+  "split_stats": {
+    "train": {
+      "rows": 977250,
+      "time_min": 0,
+      "time_max": 91,
+      "date_min": "2005-01-01",
+      "date_max": "2012-08-31"
+    },
+    "valid": {
+      "rows": 204597,
+      "time_min": 92,
+      "time_max": 113,
+      "date_min": "2012-09-01",
+      "date_max": "2014-06-30"
+    },
+    "test": {
+      "rows": 202140,
+      "time_min": 114,
+      "time_max": 131,
+      "date_min": "2014-07-01",
+      "date_max": "2015-12-31"
+    },
+    "output_files": {
+      "train": "/Users/hasan/mmkb/TemporalKGs/icews05-15_aug_inverse_time_year_time_based/icews_2005-2015_train_normalized.txt",
+      "valid": "/Users/hasan/mmkb/TemporalKGs/icews05-15_aug_inverse_time_year_time_based/icews_2005-2015_valid_normalized.txt",
+      "test": "/Users/hasan/mmkb/TemporalKGs/icews05-15_aug_inverse_time_year_time_based/icews_2005-2015_test_normalized.txt"
+    }
+  }
+}

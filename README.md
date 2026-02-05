@@ -156,3 +156,61 @@ Output:
 - Generate component signals via `TemporalKGs/all_signals.ipynb`.
 - Generate final fused graph via `TemporalKGs/influence_graph.ipynb`.
 - If running locally, update notebook paths from `/content/...` to local repository paths.
+
+## 11) Phase 3: Downstream Temporal Prediction (Baseline vs Influence-Aware)
+To directly test:
+`Does using this influence graph improve temporal prediction?`
+
+Use:
+- `TemporalKGs/phase3_train_and_compare.py`
+
+### What it does
+- Loads:
+  - `TemporalKGs/icews05-15_aug_inverse_time_year/icews_2005-2015_train_normalized.txt`
+  - `TemporalKGs/icews05-15_aug_inverse_time_year/icews_2005-2015_valid_normalized.txt`
+  - `TemporalKGs/icews05-15_aug_inverse_time_year/icews_2005-2015_test_normalized.txt`
+- Trains a simple temporal baseline (`TTransE-lite`).
+- Trains an influence-aware variant that adds a weighted auxiliary loss using:
+  - `TemporalKGs/final_influence_graph.json`
+- Evaluates both with filtered ranking metrics:
+  - `Hits@3`, `Hits@5`, `Hits@10` (and `MRR`).
+- Saves comparison output to:
+  - `TemporalKGs/phase3_results/phase3_results.json`
+
+### Colab quick start
+```bash
+git clone https://github.com/hasanmansoor96/RCS.git
+cd RCS
+python TemporalKGs/phase3_train_and_compare.py --run_mode both --epochs 3 --eval_max_samples 10000
+```
+
+### Fuller run
+```bash
+python TemporalKGs/phase3_train_and_compare.py \
+  --run_mode both \
+  --epochs 5 \
+  --eval_max_samples -1 \
+  --batch_size 2048 \
+  --eval_batch_size 32 \
+  --influence_lambda 0.05 \
+  --max_influence_neighbors 5
+```
+
+### Useful options
+- `--run_mode baseline|influence|both`
+- `--eval_max_samples N` (`-1` means full valid/test split)
+- `--influence_lambda` (strength of influence-aware auxiliary updates)
+- `--max_influence_neighbors` (neighbors per source from final influence graph)
+
+## 12) Build Strict Time-Based Splits (Separate Script)
+To avoid temporal leakage, build chronological splits outside notebooks:
+
+```bash
+python TemporalKGs/build_time_based_splits.py
+```
+
+Generated files:
+- `TemporalKGs/icews05-15_aug_inverse_time_year_time_based/icews_2005-2015_train_normalized.txt`
+- `TemporalKGs/icews05-15_aug_inverse_time_year_time_based/icews_2005-2015_valid_normalized.txt`
+- `TemporalKGs/icews05-15_aug_inverse_time_year_time_based/icews_2005-2015_test_normalized.txt`
+- `TemporalKGs/icews05-15_aug_inverse_time_year_time_based/time_based_split_metadata.json`
